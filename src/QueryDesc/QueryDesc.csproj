@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AF4BE351-0D65-42CD-A9A0-8FDB9D9E1865}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>me.fengyj.QueryDesc</RootNamespace>
+    <AssemblyName>fm.QueryDesc</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BinaryOpFilterCriteria.cs" />
+    <Compile Include="CompositeFilterCriteria.cs" />
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="FilterCriteria.cs" />
+    <Compile Include="FilterCriteriaMathFuncElements.cs" />
+    <Compile Include="FilterCriteriaStringFuncElements.cs" />
+    <Compile Include="FilterExpressionHelper.cs" />
+    <Compile Include="FilterOperations.cs" />
+    <Compile Include="InOpFilterCriteria.cs" />
+    <Compile Include="ISearchCriteria.cs" />
+    <Compile Include="ISearchCriteriaElement.cs" />
+    <Compile Include="ISearchCriteriaExpressionProvider.cs" />
+    <Compile Include="JoinCriteria.cs" />
+    <Compile Include="LinqProvider\ArrayTypeConstantProvider.cs" />
+    <Compile Include="LinqProvider\BinaryOpFilterCriteriaProvider.cs" />
+    <Compile Include="LinqProvider\ComplexTypeConstantProvider.cs" />
+    <Compile Include="LinqProvider\CompositeFilterCriteriaProvider.cs" />
+    <Compile Include="LinqProvider\ConstantOrFuncProvider.cs" />
+    <Compile Include="LinqProvider\ConstantProvider.cs" />
+    <Compile Include="LinqProvider\EnumerableTranslator.cs" />
+    <Compile Include="LinqProvider\FieldOrFuncProvider.cs" />
+    <Compile Include="LinqProvider\FieldProvider.cs" />
+    <Compile Include="LinqProvider\FilterExpressionHelper.cs" />
+    <Compile Include="LinqProvider\InOpFilterCriteriaProvider.cs" />
+    <Compile Include="LinqProvider\MathFuncProvider.cs" />
+    <Compile Include="LinqProvider\QueryTranslator.cs" />
+    <Compile Include="LinqProvider\RefOpFilterCriteriaProvider.cs" />
+    <Compile Include="LinqProvider\SearchCriteriaProvider.cs" />
+    <Compile Include="LinqProvider\StringFuncProvider.cs" />
+    <Compile Include="LinqProvider\TripleOpFilterCriteriaProvider.cs" />
+    <Compile Include="OrderByCriteria.cs" />
+    <Compile Include="PagingCriteria.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryDescription.cs" />
+    <Compile Include="RefOpFilterCriteria.cs" />
+    <Compile Include="SerializeIdentifies.cs" />
+    <Compile Include="TripleOpFilterCriteria.cs" />
+    <Compile Include="Utils\AnonymousClassUtils.cs" />
+    <Compile Include="Utils\ExpressionUtils.cs" />
+    <Compile Include="Utils\ValueTypeHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="TypeScript\searchcriteria.ts" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
