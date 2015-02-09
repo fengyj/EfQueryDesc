@@ -28,11 +28,11 @@ namespace me.fengyj.QueryDesc.LinqProvider
 
         public static IOrderedEnumerable<TEntity> ApplyTo<TEntity>(this IEnumerable<TEntity> query, OrderByCriteria criteria)
         {
-            var newQuery = GetExpression<TEntity>(criteria, true)(query);
+            var newQuery = GetOrderByExpression<TEntity>(criteria)(query);
             var thenby = criteria.ThenBy;
             while (thenby != null)
             {
-                newQuery = GetExpression<TEntity>(thenby, false)(newQuery);
+                newQuery = GetThenByExpression<TEntity>(thenby)(newQuery);
                 thenby = thenby.ThenBy;
             }
             return newQuery;
@@ -43,23 +43,15 @@ namespace me.fengyj.QueryDesc.LinqProvider
             return query.Skip((criteria.CurrentPage - 1) * criteria.PageSize).Take(criteria.PageSize);
         }
 
-        private static Func<IEnumerable<TEntity>, IOrderedEnumerable<TEntity>> GetExpression<TEntity>(
-            OrderByCriteria criteria, bool isFirstOrderCriteria)
+        private static Func<IEnumerable<TEntity>, IOrderedEnumerable<TEntity>> GetOrderByExpression<TEntity>(
+            OrderByCriteria criteria)
         {
             Type outputType = null;
             var propExp = SearchCriteriaProvider.GetSearchCriteriaExpression(
                 criteria.Field, typeof(TEntity), ref outputType) as LambdaExpression;
             var paramExp = Expression.Parameter(typeof(IEnumerable<TEntity>));
 
-            var cmd = "";
-            if (isFirstOrderCriteria)
-            {
-                cmd = criteria.Order == OrderByCriteria.SortTypes.Asc ? "OrderBy" : "OrderByDescending";
-            }
-            else
-            {
-                cmd = criteria.Order == OrderByCriteria.SortTypes.Asc ? "ThenBy" : "ThenByDescending";
-            }
+            var cmd = criteria.Order == OrderByCriteria.SortTypes.Asc ? "OrderBy" : "OrderByDescending";
             var body = Expression.Call(
             typeof(Enumerable),
             cmd,
@@ -69,6 +61,26 @@ namespace me.fengyj.QueryDesc.LinqProvider
 
             var lambdaExp = Expression.Lambda(body, paramExp);
             return lambdaExp.Compile() as Func<IEnumerable<TEntity>, IOrderedEnumerable<TEntity>>;
+        }
+
+        private static Func<IOrderedEnumerable<TEntity>, IOrderedEnumerable<TEntity>> GetThenByExpression<TEntity>(
+            OrderByCriteria criteria)
+        {
+            Type outputType = null;
+            var propExp = SearchCriteriaProvider.GetSearchCriteriaExpression(
+                criteria.Field, typeof(TEntity), ref outputType) as LambdaExpression;
+            var paramExp = Expression.Parameter(typeof(IOrderedEnumerable<TEntity>));
+
+            var cmd = criteria.Order == OrderByCriteria.SortTypes.Asc ? "ThenBy" : "ThenByDescending";
+            var body = Expression.Call(
+            typeof(Enumerable),
+            cmd,
+            new Type[] { typeof(TEntity), propExp.Body.Type },
+            paramExp,
+            propExp);
+
+            var lambdaExp = Expression.Lambda(body, paramExp);
+            return lambdaExp.Compile() as Func<IOrderedEnumerable<TEntity>, IOrderedEnumerable<TEntity>>;
         }
     }
 

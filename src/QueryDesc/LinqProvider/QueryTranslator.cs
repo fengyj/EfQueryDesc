@@ -59,7 +59,9 @@ namespace me.fengyj.QueryDesc.LinqProvider
             Type outputType = null;
             var propExp = SearchCriteriaProvider.GetSearchCriteriaExpression(
                 criteria.Field, typeof(TEntity), ref outputType) as LambdaExpression;
-            var paramExp = Expression.Parameter(typeof(IQueryable<TEntity>));
+            var paramExp = isFirstOrderCriteria
+                ? Expression.Parameter(typeof(IQueryable<TEntity>))
+                : Expression.Parameter(typeof(IOrderedQueryable<TEntity>));
 
             var cmd = string.Empty;
             if (isFirstOrderCriteria)
